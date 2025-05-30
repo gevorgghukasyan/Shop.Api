@@ -17,13 +17,16 @@ builder.Services.AddDbContext<ProductDataContext>(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-
+using (var scope = app.Services.CreateScope())
+{
+	using (ProductDataContext context = scope.ServiceProvider.GetRequiredService<ProductDataContext>())
+	{
+		context.Database.EnsureCreated();
+	}
+}
 app.UseSwagger();
 app.UseSwaggerUI();
-using (var context = new ProductDataContext())
-{
-	context.Database.EnsureCreated();
-}
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
