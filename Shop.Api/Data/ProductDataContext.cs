@@ -13,7 +13,12 @@ public class ProductDataContext : DbContext
 	{
 	}
 
-	protected override void OnModelCreating(ModelBuilder modelBuilder)
+    public ProductDataContext()
+    {
+        
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder.Entity<Product>(entity =>
 		{

@@ -12,17 +12,18 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ProductDataContext>(options =>
 	options.UseSqlServer("Data Source=.;Initial Catalog=ShopDb;Integrated Security=True;Encrypt=False"));
-	//options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+//options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
+app.UseSwagger();
+app.UseSwaggerUI();
+using (var context = new ProductDataContext())
+{
+	context.Database.EnsureCreated();
+}
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
